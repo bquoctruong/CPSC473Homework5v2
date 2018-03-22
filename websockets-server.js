@@ -17,7 +17,7 @@ ws.on("connection", function(socket){
 
 
   socket.on("message", function(data){
-    console.log(`message received: ${  data}`);
+    //console.log(`message received: ${  data}`);
     messages.push(data);
     ws.clients.forEach(function (clientSocket){
       clientSocket.send(data);

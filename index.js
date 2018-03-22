@@ -13,7 +13,8 @@ var wss = require("./websockets-server");
 
 //Writes an error
 var handleError = function(err, res){
-  res.writeHead(err);
+  res.writeHead(302, {Location: "error.html"});
+  //Credit: Miles Mccloskey for error code
   res.end();
 };
 
@@ -27,7 +28,7 @@ var server = http.createServer(function(req, res){
       handleError(err, res);
     } else {
       //fs.readFile("app/mime.jpeg");
-      res.setHeader("Content-Type", "application/octet-stream");
+      res.setHeader("Content-Type", "text/html");
       res.end(data);
     }
   });

@@ -1,0 +1,47 @@
+var http = require("http");
+var fs = require("fs");
+
+var extract = require("./extract");
+
+/*
+ *const Mime = require('mime/Mime');
+ *var mime = require("mime");
+ */
+//CH. 16 addition
+var wss = require("./websockets-server");
+
+
+//Writes an error
+var handleError = function(err, res){
+  res.writeHead(err);
+  res.end();
+};
+
+
+var server = http.createServer(function(req, res){
+  console.log("Responding to a request.");
+
+  var filePath = extract(req.url);
+  fs.readFile(filePath, function(err, data){
+    if (err){
+      handleError(err, res);
+    } else {
+      //fs.readFile("app/mime.jpeg");
+      res.setHeader("Content-Type", "application/octet-stream");
+      res.end(data);
+    }
+  });
+
+  /*
+   * fs.readFile("app/index.html", function(err,data){
+   * if (err){
+   * handleError(err, res);
+   * return;
+   * } else{
+   * res.setHeader("Content-Type", "text/html"); //MIME header
+   * res.end(data);
+   * }
+   * });
+   */
+});
+server.listen(3000);
